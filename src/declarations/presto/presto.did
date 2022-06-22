@@ -1,0 +1,101 @@
+type WithdrawReceipt = 
+ variant {
+   Err: WithdrawErr;
+   Ok: nat;
+ };
+type WithdrawErr = 
+ variant {
+   BalanceLow;
+   TransferFailure;
+ };
+type Token = principal;
+type Time = int;
+type Principal = principal;
+type Presto = 
+ service {
+   addEscrowEvent: (text, EscrowEvent) -> () oneway;
+   approveEscrowEvent: (text, nat, principal) -> (EscrowEvent);
+   createEscrow: (principal, nat) -> (text);
+   create_chunk: (Chunk) -> (record {chunk_id: nat;});
+   deposit: (Token) -> (DepositReceipt);
+   getAsset: (text) -> (opt vec nat8);
+   getBalanceForUser: () -> (nat);
+   getDepositAddress: () -> (blob);
+   getDepositAddressString: () -> (opt text);
+   getDocumentID: () -> (text);
+   getEscrowState: (text) -> (EscrowType);
+   getEscrowsForUser: (principal) -> (vec text);
+   greet: (text) -> (text);
+   http_request: (HttpRequest) -> (HttpResponse) query;
+   releaseToSeller: (text) -> (WithdrawReceipt);
+   setBuyer: (text, principal) -> () oneway;
+   setEscrowUnlockTime: (text, Time) -> () oneway;
+   setSeller: (text, principal) -> () oneway;
+   upload_file: (File) -> () oneway;
+   withdraw: (Token, nat, principal) -> (WithdrawReceipt);
+ };
+type HttpResponse = 
+ record {
+   body: vec nat8;
+   headers: vec HeaderField;
+   status_code: nat16;
+ };
+type HttpRequest = 
+ record {
+   body: vec nat8;
+   headers: vec HeaderField;
+   method: text;
+   url: text;
+ };
+type HeaderField = 
+ record {
+   text;
+   text;
+ };
+type File = 
+ record {
+   assetID: text;
+   content: vec nat8;
+   contentLength: nat;
+   content_type: text;
+ };
+type EscrowType = 
+ record {
+   amount: nat64;
+   buyer: opt Principal;
+   escrowEvents: vec EscrowEvent;
+   lender: opt Principal;
+   seller: opt Principal;
+   trustee: opt Principal;
+ };
+type EscrowEvent = 
+ record {
+   assetID: text;
+   buyerApproved: bool;
+   datetime: Time;
+   description: text;
+   eventType: text;
+   isDeposit: bool;
+   isTitleDocument: bool;
+   lenderApproved: bool;
+   name: text;
+   needsApproval: bool;
+   sellerApproved: bool;
+   trusteeApproved: bool;
+ };
+type DepositReceipt = 
+ variant {
+   Err: DepositErr;
+   Ok: nat;
+ };
+type DepositErr = 
+ variant {
+   BalanceLow;
+   TransferFailure;
+ };
+type Chunk = 
+ record {
+   batch_name: text;
+   content: vec nat8;
+ };
+service : () -> Presto

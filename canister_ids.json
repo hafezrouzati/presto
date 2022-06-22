@@ -1,0 +1,17 @@
+{
+  "internet_identity": {
+    "ic": "32qqc-liaaa-aaaak-qap2a-cai"
+  },
+  "ledger": {
+    "ic": "5kkos-naaaa-aaaak-qaqka-cai"
+  },
+  "presto": {
+    "ic": "35rww-gqaaa-aaaak-qap2q-cai"
+  },
+  "presto_assets": {
+    "ic": "3us5k-qyaaa-aaaak-qap3a-cai"
+  },
+  "whoami": {
+    "ic": "3tt36-5aaaa-aaaak-qap3q-cai"
+  }
+}
